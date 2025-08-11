@@ -1,2 +1,2 @@
-# portfoliio-website
+# portfolio-website
 Professional Portfolio Website
