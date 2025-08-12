@@ -818,7 +818,7 @@
                         I'm always up for discussing new opportunities, collaborations, or just connecting with fellow data nerds. Feel free to reach out!
                     </p>
                     
-                    <form class="contact-form fade-in" onsubmit="handleSubmit(event)">
+                   <form class="contact-form fade-in" action="https://formspree.io/f/mldlzogd" method="POST">
                         <div class="form-group">
                             <label for="name" class="form-label">Full Name *</label>
                             <input type="text" id="name" name="name" class="form-input" required>
@@ -826,7 +826,7 @@
                         
                         <div class="form-group">
                             <label for="email" class="form-label">Email Address *</label>
-                            <input type="email" id="email" name="email" class="form-input" required>
+                            <input type="email" id="email" name="_replyto" class="form-input" required>
                         </div>
                         
                         <div class="form-group">
@@ -841,6 +841,7 @@
                         
                         <button type="submit" class="submit-btn">Send Message</button>
                     </form>
+                        
                 </div>
             </section>
         </div>
@@ -885,7 +886,7 @@
         // Contact form submission
         function handleSubmit(event) {
             event.preventDefault();
-            alert('Thank you for your message! This would normally integrate with a contact form service.');
+            alert('Thank you for your message!');
         }
 
         // Animation on scroll
