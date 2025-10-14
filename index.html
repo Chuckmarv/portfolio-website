@@ -22,6 +22,7 @@
             --background-secondary: #f9fafb;
             --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --modal-backdrop: rgba(0, 0, 0, 0.9);
         }
 
         body {
@@ -396,13 +397,9 @@
         }
         .project-image a {
             display: block;
-            width: 100%
-            height: 100%
+            width: 100%;
+            height: 100%;
             cursor: pointer;
-        }
-        .project-image a:hover img {
-            opacity: 0.8;
-            transition: opacity 0.3s ease;
         }
         .project-image img {
             display: block;
@@ -558,6 +555,72 @@
             opacity: 1;
             transform: translateY(0);
         }
+        /* Lightbox Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--modal-backdrop);
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90vh;
+            margin: auto;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-content img {
+            width: 100%;
+            height: auto;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            line-height: 1;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            color: var(--accent-color);
+            transform: scale(1.1);
+        }
     </style>
 </head>
 <body>
@@ -657,7 +720,7 @@
                     <h2 class="section-title">Scenario & Problem-Based Projects</h2>
                     <div class="projects-grid">
                         <div class="project-card fade-in">
-                            <div class="project-image"><img src="Oracle_Bubble.png" alt="Oracle Incident Analysis"></div>
+                            <div class="project-image"><img src="Oracle_Bubble.png" alt="Oracle Incident Analysis" onclick="openModal('Oracle_Bubble.png')" style="cursor: pointer;"></div>
                             <div class="project-content">
                                 <h3 class="project-title">Incident Average Resolve Time Analysis</h3>
                                 <p class="project-description">Comprehensive analysis and presentation proposing automation of Oracle Database operations to improve resolution times and operational efficiency.</p>
@@ -670,7 +733,8 @@
                         </div>
 
                         <div class="project-card fade-in">
-                            <div class="project-image"><img src="SQLite_DB_Browser.png" alt="SQL Queries and Reports"></div>
+                            <div class="project-image"><img src="SQLite_DB_Browser.png" alt="Oracle Incident Analysis" onclick="openModal('SQLite_DB_Browser.png')" style="cursor: pointer;"></div>
+                            
                             <div class="project-content">
                                 <h3 class="project-title">SQL Query Scripting</h3>
                                 <p class="project-description">Querying and Scripting SQL database using SQLite and DB Browser. SQL Statements, Constraints, Comparison Operators, Sorting, Aggregate, String, and Date Functions, Joins and Views. </p>
@@ -715,7 +779,10 @@
                         </div>
                         
                         <div class="project-card fade-in">
-                            <div class="project-image"><img src="Now_Assist.png" alt="Now Assist AI"></div>
+                            <div class="project-image"><img src="Now_Assist_ESC_view.png" alt="Now Assist AI"></div>
+                            
+                            <div class="project-image"><img src="Now_Assist_ESC_view.png" alt="Oracle Incident Analysis" onclick="openModal('Now_Assist_ESC_view.png')" style="cursor: pointer;"></div>
+                            
                             <div class="project-content">
                                 <h3 class="project-title">Now Assist Generative AI</h3>
                                 <p class="project-description">Implement AI-enabled chat system for end users and support analysts, including performance metrics and reporting dashboards.</p>
@@ -729,6 +796,9 @@
                         
                         <div class="project-card fade-in">
                             <div class="project-image"><img src="Task_Automation.png" alt="Task Automation"></div>
+                            
+                            <div class="project-image"><img src="Task_Automation.png" alt="Oracle Incident Analysis" onclick="openModal('Task_Automation.png')" style="cursor: pointer;"></div>
+                            
                             <div class="project-content">
                                 <h3 class="project-title">ServiceNow Task Automation</h3>
                                 <p class="project-description">Automate daily routine tasks (i.e. password resets) improving analyst documentation and reducing phone queue time by 15%.</p>
@@ -901,6 +971,13 @@
                 </div>
             </section>
         </div>
+        <!-- Lightbox Modal -->
+            <div id="imageModal" class="modal" onclick="closeModal(event)">
+                <div class="modal-content">
+                    <button class="modal-close" onclick="closeModal(event)">&times;</button>
+                    <img id="modalImage" src="" alt="Project preview">
+                </div>
+            </div>
     </main>
 
     <script>
@@ -986,6 +1063,34 @@
         document.addEventListener('click', (e) => {
             if (!e.target.closest('.nav-container')) {
                 document.querySelector('.nav-menu').classList.remove('active');
+            }
+        });
+        // Lightbox Modal functionality
+        function openModal(imageSrc) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            modal.classList.add('active');
+            modalImg.src = imageSrc;
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(event) {
+            if (event.target.classList.contains('modal') ||
+                event.target.classList.contains('modal-close')) {
+                const modal = document.getElementById('imageModal');
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const modal = document.getElementById('imageModal');
+                if (modal.classList.contains('active')) {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
             }
         });
     </script>
