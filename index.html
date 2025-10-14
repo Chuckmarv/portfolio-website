@@ -393,7 +393,14 @@
             font-size: 3rem;
             color: white;
         }
-
+        .project-image a {
+            display: block;
+            cursor: pointer;
+        }
+        .project-image a:hover img {
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
         .project-image img {
             width: 100%;
             height: 100%;
@@ -687,10 +694,14 @@
                         </div>
                         
                         <div class="project-card fade-in">
-                            <div class="project-image"><img src="Data_Mgmt_Plan.png" alt="Data Mgmt Plan"></div>
+                            <div class="project-image">
+                                <a href="Data_Mgmt_Plan.pdf" target="_blank" rel="noopener noreferrer">
+                                    <img src="Data_Mgmt_Plan.png" alt="Data Mgmt Plan">
+                                </a>
+                            </div>
                             <div class="project-content">
                                 <h3 class="project-title">Data Management Plan</h3>
-                                <p class="project-description">Document: Data inventory, cleaning, ID sensitive data sets, etc. while maintaining compliance, security and ease-of-use for the organization.  </p>
+                                <p class="project-description">Document: Data inventory, cleaning, ID sensitive data sets, etc. while maintaining compliance, security and ease-of-use for the organization.</p>
                                 <div class="project-tags">
                                     <span class="tag">Data Inventory</span>
                                     <span class="tag">Database Science</span>
