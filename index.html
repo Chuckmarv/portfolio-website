@@ -625,6 +625,32 @@
             color: var(--accent-color);
             transform: scale(1.1);
         }
+        .modal-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .modal-download-btn {
+            background: var(--accent-color);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .modal-download-btn:hover {
+            background: #f59e0b;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+        }
     </style>
 </head>
 <body>
@@ -725,9 +751,15 @@
                     <div class="projects-grid">
                         <div class="project-card fade-in">
                             <div class="project-image"><img src="Oracle_Bubble.png" alt="Oracle Incident Analysis" onclick="openModal('Oracle_Bubble.png')" style="cursor: pointer;"></div>
+                            
+                            <div class="project-card fade-in">
+                                <div class="project-image">
+                                    <img src="Oracle_Bubble.png" alt="Incident ATTR very high" onclick="openModal('Oracle_Bubble.png', 'Data_Mgmt_Plan.pdf', 'Data_Mgmt_Plan.pdf')" style="cursor: pointer;">
+                                </div>
+                            
                             <div class="project-content">
-                                <h3 class="project-title">Incident Average Resolve Time Analysis</h3>
-                                <p class="project-description">Comprehensive analysis and presentation proposing automation of Oracle Database operations to improve resolution times and operational efficiency.</p>
+                                <h3 class="project-title">Incident ATTR Analysis</h3>
+                                <p class="project-description">Presentation of analysis to discover cause(s) of high incident Average Time to Resolve (ATTR), findings, and recommendations to improve operational efficiency and reduce the most common support tasks ATTR KPI by 90%!</p>
                                 <div class="project-tags">
                                     <span class="tag">ServiceNow CSA</span>
                                     <span class="tag">Data Analysis</span>
@@ -767,9 +799,7 @@
                         
                         <div class="project-card fade-in">
                             <div class="project-image">
-                                <a href="Data_Mgmt_Plan.pdf" target="_blank" rel="noopener noreferrer">
-                                    <img src="Data_Mgmt_Plan.png" alt="Data Mgmt Plan">
-                                </a>
+                                <img src="Data_Mgmt_Plan.png" alt="Data Mgmt Plan" onclick="openModal('Data_Mgmt_Plan.png', 'Data_Mgmt_Plan.pdf', 'Data_Mgmt_Plan.pdf')" style="cursor: pointer;">
                             </div>
                             <div class="project-content">
                                 <h3 class="project-title">Data Management Plan</h3>
@@ -979,7 +1009,8 @@
             <div id="imageModal" class="modal" onclick="closeModal(event)">
                 <div class="modal-content">
                     <button class="modal-close" onclick="closeModal(event)">&times;</button>
-                    <img id="modalImage" src="" alt="Project preview">
+                    <img id="modalImage" src="" alt="Preview">
+                    <div id="modalActions" class="modal-actions"></div>
                 </div>
             </div>
     </main>
@@ -1070,11 +1101,25 @@
             }
         });
         // Lightbox Modal functionality
-        function openModal(imageSrc) {
+        function openModal(imageSrc, downloadLink = null, fileName = null) {
             const modal = document.getElementById('imageModal');
             const modalImg = document.getElementById('modalImage');
+            const modalActions = document.getElementById('modalActions');
+            
             modal.classList.add('active');
             modalImg.src = imageSrc;
+            
+            // Add download button if link provided
+            if (downloadLink && fileName) {
+                modalActions.innerHTML = `
+                    <a href="${downloadLink}" download="${fileName}" class="modal-download-btn">
+                        Download ${fileName}
+                    </a>
+                `;
+            } else {
+                modalActions.innerHTML = '';
+            }
+            
             document.body.style.overflow = 'hidden';
         }
 
